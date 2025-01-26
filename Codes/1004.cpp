@@ -1,21 +1,18 @@
-//[1,0,1,0,1] k = 2
-//mp = {0:0,1:2,2:4}
-// ans = 
 class Solution {
 public:
+//[1,1,1,0,0,0,1,1,1,1,0], k=2
     int longestOnes(vector<int>& nums, int k) {
-        unordered_map<int,int>mp;
-        int cnt = 0;
-        for(int i=0;i<nums.size();i++){
-            cnt+=(!nums[i]?1:0);
-            mp[cnt]=i;
-        }
-        
-        int ans = 0, z = 0;
-        for(int i=0;i<nums.size();i++){
-            int mx = min(cnt, z+k);
-            if (mp.count(mx)) ans = max(mp[mx]-i+1,ans);
-            z+=(!nums[i]?1:0);
+        int sz = nums.size(), r = 0,cnt = 0,ans =0;
+        for(int l=0;l<sz;l++){
+            while(cnt<=k && r<sz){
+                cnt += (1-nums[r]);;
+                if(cnt<=k){
+                    ans = max(ans,r-l+1);
+                } 
+                r++;
+            }
+            
+            cnt -= (1-nums[l]);
         }
         
         return ans;
